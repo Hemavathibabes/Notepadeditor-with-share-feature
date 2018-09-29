@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Text editor</title>
+	
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<body onload="loaduserid2(); sharefile();">
+<b>if u want to open the file?</b>
+<input id="search-box" type="search" placeholder="Search.." onkeyup="searchNote(this.value)" /><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Userid:</b>
+<input type="button" name="" id="u_id">
+<br>
+<button onclick="hide()"><a href="/savedfiles" >Saved Notes:</a></button>
+
+
+
+<br>
+<table id="tableload">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Id</th>
+            <th>File name</th>
+            <th>content</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody >
+    <% rows.forEach((row,ind) => { %>
+     <tr>
+         <td><%- ind +1 %>
+         </td>   
+         <td><%- row.id %></td>
+         <td><a style="text-decoration-line: none;" href="/view/<%- row.filename%>"><%- row.filename%></a> </td>
+         
+         <td><%- row.info %></td>
+         <td>
+             <button>
+                 <a href="/<%- row.id %>">Edit</a>
+             </button>
+         </td>
+         <td>
+             <button id="delete" onclick="DeleteNote(<%- row.id %>,this)">Delete</button>
+         </td>
+          <td>
+             <button onclick="Sharefiles(<%- row.id %>,this)">Share</button>
+         </td>
+        </tr>
+    <% }); %>
+    </tbody>
+</table>
+<button onclick="sharefile()">Shared notes:</button>
+<table id="tableshare"> 
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Id</th>
+            <th>File name</th>
+            <th>content</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody >
+    
+    </tbody>
+</table>
+<script type="text/javascript">
+    function hide()
+    {
+        $('#delete').hide();
+    }
+</script>
+ <script src="js/script.js"></script>
+ <script src="js/ajax.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Heartbitz",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "ejs": "^2.6.1",
+    "express": "^4.15.4",
+    "jspdf": "^1.4.1",
+    "sqlite3": "^4.0.0"
+  }
+}
