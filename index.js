@@ -25,9 +25,9 @@ app.use((req, res, next) => {
 });
 
 var fns=require('./functions');
-//db.run("CREATE TABLE d7 (id INTEGER PRIMARY KEY AUTOINCREMENT,userid INTEGER ,info  TEXT,filename TEXT)");
-// db.run("CREATE TABLE d5 (userid INTEGER PRIMARY KEY,username TEXT,password TEXT)");
-//db.run("CREATE TABLE d10 (fileid INTEGER PRIMARY KEY,ownerid INTEGER,sharedid INTEGER,edit boolean)");
+//db.run("CREATE TABLE t3 (id INTEGER PRIMARY KEY AUTOINCREMENT,username TEXT,info  TEXT,filename TEXT)");
+ //db.run("CREATE TABLE  t2 (username TEXT PRIMARY KEY,email TEXT,password TEXT)");
+//db.run("CREATE TABLE t4 (fileid INTEGER PRIMARY KEY,username TEXT,sharedname TEXT,edit boolean)");
 app.get('/', (req, res) => {
 	res.render('index', {
 		edit:false,
@@ -47,7 +47,7 @@ app.get('/editor', (req, res) => {
 	});
 });
 app.get('/loadfiles',(req,res) => {
-	 fns.LoadQuery('d7',userId,0,20).then(rows => {
+	 fns.LoadQuery('t3',username,0,20).then(rows => {
 
 	res.render('index1',{
        rows:[]
@@ -59,8 +59,10 @@ app.get('/savedfiles',(req,res)=>{
 	{
 
 
-	var userId = parseInt(req.headers.cookie.split('=')[1]);
-	fns.LoadQuery('d7',userId, 0,20).then(rows => {
+	var username = req.headers.cookie.split('=')[1];
+
+	//console.log(username);
+	fns.LoadQuery('t3',username, 0,20).then(rows => {
 	res.render('index1',{
 		rows:rows
 	});
@@ -68,7 +70,7 @@ app.get('/savedfiles',(req,res)=>{
 }
 else
 {
- fns.LoadQuery('d7',userId,0,20).then(rows => {
+ fns.LoadQuery('t3',username,0,20).then(rows => {
 		res.render('index1' , {
 			rows:[]
 		});
@@ -80,8 +82,9 @@ app.get('/sharedfiles',(req,res) => {
 	{
 
 
-	var userId=parseInt(req.headers.cookie.split('=')[1]);
-	fns.share('d7','d10',userId).then(result=> {
+	var username=req.headers.cookie.split('=')[1];
+	//console.log(username);
+	fns.share('t3','t4',username).then(result=> {
 		res.json(result);
 	
 	}).catch(err => {
@@ -90,7 +93,7 @@ app.get('/sharedfiles',(req,res) => {
 }
 else
 {
- fns.LoadQuery('d7',userId,0,20).then(rows => {
+ fns.LoadQuery('t3',username,0,20).then(rows => {
 		res.render('index1' , {
 			rows:[]
 		});
@@ -108,11 +111,10 @@ app.get('/signup',(req,res) => {
 });
 
 app.get('/edit/:id', (req, res) => {
-	fns.find('d7', parseInt(req.params.id)).then(row => {
+	fns.find('t3', parseInt(req.params.id)).then(row => {
 		res.render('index0', {
 			edit: true,
 			id: row.id,
-			userid:row.userid,
 			filename: row.filename,
 			content: row.info
 		});
@@ -120,22 +122,20 @@ app.get('/edit/:id', (req, res) => {
 });
 app.get('/:id',(req,res) => {
 	
-	fns.find('d7',parseInt(req.params.id)).then(row => {
+	fns.find('t3',parseInt(req.params.id)).then(row => {
 		res.render('index0', {
 			edit: true,
 			id: row.id,
-			userid:row.userid,
 			filename: row.filename,
 			content: row.info
 		});
 	});
 } );
 app.get('/view/:filename',(req,res) =>{
-	fns.find1('d7',req.params.filename).then(row => {
+	fns.find1('t3',req.params.filename).then(row => {
 		res.render('index0', {
 		    edit:false,
 			id: row.id,
-			userid:row.userid,
 			filename: row.filename,
 			content: row.info
 		});
@@ -144,8 +144,9 @@ app.get('/view/:filename',(req,res) =>{
 });
 app.post('/update',(req,res) => {
 	let data=req.body;
-	fns.update('d7',data.id,data.content_name,data.content).then(result =>{
+	fns.update('t3',data.id,data.content_name,data.content).then(result =>{
      res.json(result);
+     
      }).catch(err => {
 		res.json({
 			code: 0,
@@ -157,7 +158,7 @@ app.post('/update',(req,res) => {
 app.post('/load-more', (req, res) => {
 	let data = req.body;
 
-	fns.LoadQuery('d7', data.id, 0,20).then(rows => {
+	fns.LoadQuery('t3', data.id, 0,20).then(rows => {
 		res.json(rows);
 	}).catch(err => {
 		res.json({
@@ -168,7 +169,7 @@ app.post('/load-more', (req, res) => {
 
 app.post('/delete',(req,res) => {
 	let data =req.body;
-	fns.remove('d7',data.id).then(result => {
+	fns.remove('t3',data.id).then(result => {
 		res.json(result);
 	}).catch(err => {
 		res.json({
@@ -184,8 +185,8 @@ app.post('/save-content', (req, res) => {
 	db.serialize(function() {
          
 	     
-	     var stmt=db.prepare("INSERT INTO d7 VALUES (?,?,?,?)");
-		stmt.run(null,data.user_id, data.content,data.content_name);
+	     var stmt=db.prepare("INSERT INTO t3 VALUES (?,?,?,?)");
+		stmt.run(null,data.username, data.content,data.content_name);
 		stmt.finalize();
 		
 	     	res.end("file saved Successfully!");
@@ -196,8 +197,8 @@ app.post('/save-content', (req, res) => {
 app.post('/share-file',(req,res) => {
 let data=req.body;
 	db.serialize(function(){
-		var stmt=db.prepare(`INSERT INTO d10 VALUES (?,?,?,?)`);
-		stmt.run(data.id,data.ownerid,data.userid,data.edit);
+		var stmt=db.prepare(`INSERT INTO t4 VALUES (?,?,?,?)`);
+		stmt.run(data.id,data.ownername,data.username,data.edit);
 		stmt.finalize();
 		res.end("file is shared Successfully!");
 	
@@ -205,14 +206,15 @@ let data=req.body;
 });
 app.post('/auth-login', (req,res) => {
 	 let data=req.body;
-	 fns.login('d5', data.userid, data.password).then(docs => {
+	 fns.login('t2', data.username, data.password).then(docs => {
 		 if(docs.length) {
 			
 			res.json({
 				code: 1,
 				message: "login success.",
-				userid: docs[0].userid,
-				username: docs[0].username
+				
+				username: docs[0].username,
+				password: docs[0].password
 			});
 		 } else {
 			 res.json({
@@ -232,8 +234,8 @@ app.post('/auth-login', (req,res) => {
 app.post('/save-userdata',(req,res) => {
 	let data=req.body;
 	db.serialize(function(){
-		var stmt=db.prepare(`INSERT INTO d5 VALUES (?,?,?)`);
-		stmt.run(data.userid,data.username,data.password);
+		var stmt=db.prepare(`INSERT INTO t2 VALUES (?,?,?)`);
+		stmt.run(data.username,data.email,data.password);
 		stmt.finalize();
 		res.end("Created account Successfully!");
 	

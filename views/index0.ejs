@@ -19,27 +19,79 @@
 		position: absolute;
 		left: 0;
 		top: 1px;
-	
-		padding: 2px 8px 1px 1px;
+	    
+		padding: 2px 5px 0px 0px;
 		color:#000000; 
 	}
 
+
+ul li
+{
+	float: right;
+	margin: 0px 5px 5px 50px;
+	list-style-type: none;
+    
+}
+ul ul {
+	display: none;
+	margin: 0;
+	padding: 0;
+     line-height: 30px;
+     position: absolute;
+}
+ul li:hover > ul {
+		display: block;
+		
+	}
+ 
+	li.sub {
+		margin: 0;
+		padding: 0;
+		float: left;
+		position: relative;
+		background: #999;
+		border: 1px solid #000;
+		width: 160px;
+
+	} 
+	ul li a
+	{
+		text-align: center;
+		text-decoration: none;
+		height: 40px;
+		width: 160px;
+		display: block;
+		color: #000;
+	}
+	 ul li:hover ul li a:hover {
+	 	background: #CCC;
+	 	color: #000;
+
+	 } 
 </style>
 
-<body onload="loaduserid()">
+<body onload="loadusername()">
 
 <b style="color: #A52A2A">WELCOME...<b style="color:#A52A2A" id="user_name"></b>!!</b>
      <br>
 
      <!--<p style="margin: 0px 20px 0px 30px" align="right"><b>For Download :
      </b>-->
-     <img onclick="pdf()" src="http://www.iop.kiev.ua/~gvozdovskyy/Igor%20Gvozdovskyy.files/academpage.files/Download%20pdf%20arrow.gif" width="50" height="50" style="margin: 0px 100px 5px 50px" align="right">
+     <ul >
+         <li><a href="" class="inputwithIcon" style=" font-size: 25px; text-decoration-line: none; color: black; padding: 4px 5px 5px 15px; "><i class="fa fa-user fa-lg fa-fw" align="right" aria-hidden="true"></i>&nbsp;&nbsp;Go to profile</a>
+         <ul >
+         	<li class="sub" ><a href="/savedfiles">Your files</a></li><br>
+         	<li class="sub" onclick="delcookie()"><a href="/">Log Out</a></li>
+         </ul>
+		</li>
+          </ul>
+     <img onclick="pdf()" src="http://www.iop.kiev.ua/~gvozdovskyy/Igor%20Gvozdovskyy.files/academpage.files/Download%20pdf%20arrow.gif" width="50" height="50" style="margin: 0px 60px 80px 0px" align="right">
      
      
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<b>Tools</b> 
 	 
-	<form id="form" name="form" onsubmit="saveNote(event)">
+	<form id="form" name="form" onsubmit="saveNote(event); savelocal();">
 
 
 		<input type="button" value="B" name="name" onclick="document.execCommand('bold', false, null);" style="font-weight: bold;">
@@ -69,14 +121,12 @@
           </select>
 
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-		 User id:<input type="button" id="user_id" size="3" value="<%- userid %>" name="">&nbsp;&nbsp;&nbsp; 
-		&nbsp; Save as:
+		  Save as:
 		<input type="Text" name="content_name" id="content_name" value="<%- filename %>">&nbsp;&nbsp;&nbsp; 
 		<input type="submit" value="save" id="submit" />
-
-		
-		<a href="/savedfiles" class="inputwithIcon"  style=" font-size: 25px; text-decoration-line: none; color: black; ">
-		<i class="fa fa-user fa-lg fa-fw" align="right" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Go to profile</a>
+	    
+        
+	
 		
 
 		 <br><br>
@@ -118,6 +168,16 @@
 			var con=document.getElementById('content');
 			con.style.fontSize=parseInt(fs) +"px";
 		}
+		function loadusername()
+
+{
+    var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
+            
+            var username=userData.username;
+            document.getElementById("user_name").innerHTML=username;
+        
+}
+
       
      </script>
 	<script src="js/script.js">

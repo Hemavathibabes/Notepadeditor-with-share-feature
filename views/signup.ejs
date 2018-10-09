@@ -43,21 +43,22 @@
 </td></tr>
 <tr><td></td></tr>
 <tr><td></td></tr>
-<tr>
-	<td>UserId</td>
-	<td>
-	<div class="inputwithIcon">
-		<input type="number" id="userid" size="30" placeholder="" style="height: 35px; font-size: 20px; width: 70%; padding-left: 50px;" name="">
-		<i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
-		</div>
-	</td>
-</tr>
+
 <tr>
 	<td>Username</td>
 	<td>
 	<div class="inputwithIcon">
 		<input type="text"  id="username" size="30" style="height: 35px; font-size: 20px; width: 70%;" >
 		<i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td>Email</td>
+	<td>
+	<div class="inputwithIcon">
+		<input type="email" id="email" size="30" placeholder="" style="height: 35px; font-size: 20px; width: 80%; padding-left: 50px;" name="">
+		<i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
 		</div>
 	</td>
 </tr>
@@ -93,7 +94,7 @@
 <script type="text/javascript">
 	function validate()
 	{
-		if((document.notepad.userid.value=="") || (document.notepad.password.value!=document.notepad.Reenterpwd.value) || (document.notepad.password.value==""))
+		if((document.notepad.username.value=="") || (document.notepad.password.value!=document.notepad.Reenterpwd.value) || (document.notepad.password.value==""))
 		{
 			alert("Something went wrong ..try again!");
 		
@@ -101,9 +102,20 @@
 		else
 		{
 			savedata(event);
+			savelocal();
 		}
 		
 	}
+	 function savelocal(){
+    	 localStorage.setItem('userData', JSON.stringify({
+                
+                username: document.notepad.username.value
+                
+            }));
+    	              document.cookie = "username=" +document.notepad.username.value ;
+
+
+    }
 </script>
 <script src="js/script.js"></script>
 

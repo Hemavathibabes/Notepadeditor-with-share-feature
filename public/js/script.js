@@ -109,12 +109,17 @@ function saveNote(e) {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
         
-        user_id:form.user_id.value,
+        username:document.getElementById('user_name').innerHTML,
         content_name: form.content_name.value,
         content: document.getElementById('content').innerHTML
     }));
     
-    } else {
+    } 
+    else if (window.location.pathname=='/view')
+    {
+      alert('wrong');
+    }
+    else {
 
             let xhr = new XMLHttpRequest();
            xhr.onreadystatechange = function() {
@@ -145,19 +150,20 @@ function savelogin(e){
     let xhr= new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if(this.status ==200 && this.readyState ==4){
-            //alert(this.responseText);
+        
         let data=JSON.parse(this.responseText);
            if(data.code==1)
            {
             //alert("WELCOME....."   + data.username);
             localStorage.setItem('userData', JSON.stringify({
-                userid: data.userid,
-                username: data.username
+                
+                username: data.username,
+                email: data.email,
             }));
-             //window.location.href="/saving";
-             document.cookie = "userId=" + data.userid;
+
+            
+             document.cookie = "username=" + data.username;
             window.location.href = '/editor';
-    //        }
            }
            else
            {
@@ -169,26 +175,19 @@ function savelogin(e){
         alert("error");
     }
      xhr.open('POST', '/auth-login',true);
-     //xhr.open('GET','/saving',true);
+     
      xhr.setRequestHeader('Content-Type','application/json');
     xhr.send(JSON.stringify({
-        userid:document.login.userid.value,
-       // username:document..username.value,
+        //userid:document.login.userid.value,
+        username:document.login.username.value,
         password:document.login.password.value,
-
-       
-    }));
-//   xhr.open('POST','/saving',true);
-//   xhr.setRequestHeader("Content-Type",'text/ejs');
+}));
 }
-function loaduserid()
-
+function delcookie()
 {
-    var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
-            var userid=userData.userid;
-            var username=userData.username;
-            document.getElementById("user_name").innerHTML=username;
-            document.getElementById('user_id').value=userid;
+   document.cookie="username=" ;
+  window.localStorage.clear();
+    
 }
 
 
@@ -196,18 +195,18 @@ function loaduserid2()
 
 {
     var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
-            var userid=userData.userid;
-            document.getElementById('u_id').value=userid;
+            var username=userData.username;
+            document.getElementById('u_name').value=username;
 }
  function Sharefiles(id)
 {
-    var userid=prompt("enter the userid which user u want to share the file:","");
+    var username=prompt("enter the username which user u want to share the file:","");
     var edit=confirm("if u give the permisstion to the user..to edit the file or not??");
 
      var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
-            var ownerid=userData.userid;
-    if (userid==null || userid=="") {
-        alert("plz enter the userid");
+            var ownername=userData.username;
+    if (username==null || username=="") {
+        alert("plz enter the username");
     }
     else
     {
@@ -224,8 +223,8 @@ function loaduserid2()
      xhr.setRequestHeader('Content-Type','application/json');
     xhr.send(JSON.stringify({
        id:id,
-       userid:userid,
-       ownerid:ownerid,
+       username:username,
+       ownername:ownername,
        edit:edit
        
     }));
@@ -238,7 +237,10 @@ function savedata(e)
     xhr.onreadystatechange = function(){
         if(this.status ==200 && this.readyState ==4){
             alert(this.responseText);
-            window.location.href='/';
+             
+            
+            window.location.href='/editor';
+
         }
     }
     xhr.onerror = function(){
@@ -247,8 +249,9 @@ function savedata(e)
      xhr.open('POST', '/save-userdata',true);
      xhr.setRequestHeader('Content-Type','application/json');
     xhr.send(JSON.stringify({
-        userid:document.notepad.userid.value,
+        
         username:document.notepad.username.value,
+        email:document.notepad.email.value,
         password:document.notepad.password.value
     }));
 

@@ -3,8 +3,8 @@
 
 module.exports = {
 
-    LoadQuery: (table, userId, startId, limit) => {
-        let q = `SELECT * FROM ${table} WHERE userid = ${userId} AND id > ${startId} LIMIT ${limit}`;
+    LoadQuery: (table, username, startId, limit) => {
+        let q = `SELECT * FROM ${table} WHERE username = '${username}' AND id > ${startId} LIMIT ${limit}`;
         
         return new Promise((resolve, reject) => {
             db.all(q, (err, rows) => {
@@ -17,8 +17,8 @@ module.exports = {
         });
     },
 
-    login: (table, userId, password) => {
-        let q = `SELECT * FROM ${table} WHERE userid=${userId} AND password='${password}'`;
+    login: (table, username, password) => {
+        let q = `SELECT * FROM ${table} WHERE username='${username}' OR email='${username}' AND password='${password}'`;
         return new Promise((resolve, reject) => {
             db.all(q, (err, rows) => {
                 if(!err) {
@@ -110,8 +110,8 @@ module.exports = {
             db.run(`UPDATE ${table} SET "filename" = '${fName}', "info" = '${content}' WHERE id = ${id}`, (err, data) => {
                 if(!err) {
                     resolve({
-                        message: "Data updated successfully.",
-                        code: 1
+                      message: " Data updated successfully."
+                        
                     });
                 } else {
                     reject({
@@ -172,9 +172,9 @@ module.exports = {
             });
         });
     },
-    share:(table,table1,userId) => {
+    share:(table,table1,username) => {
         return new Promise((resolve,reject) => {
-            let sql=`SELECT id,userid,info,filename,edit FROM d7 INNER JOIN d10 ON d7.id=d10.fileid AND d10.sharedid=${userId}`;
+            let sql=`SELECT id,info,filename,edit FROM ${table} INNER JOIN ${table1} ON t3.id=t4.fileid AND t4.sharedname='${username}'`;
         db.all(sql,(err,rows) => {
             if(!err) {
                     resolve({
