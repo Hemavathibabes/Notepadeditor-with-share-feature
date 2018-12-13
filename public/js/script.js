@@ -92,6 +92,9 @@ function saveNote(e) {
     e.preventDefault();
      
     if(window.location.pathname == '/editor') {
+        var filename;
+        var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
+         var filename=userData.filename;
      let xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function() {
@@ -103,18 +106,46 @@ function saveNote(e) {
     xhr.onerror = function() {
         alert('Something went wrong. Failed to save data.');
     }
-
+    if(localStorage.getItem("userData")==null)
+    {
+        filename=prompt("enter the filename","");
+        if (filename==null || filename=="") {
+            alert("plz enter the filename!!");
+        }
+        else{
+         localStorage.setItem('userData', JSON.stringify({
+                
+                filename:filename
+            }));
+ 
     
     xhr.open('POST', '/save-content', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
         
         username:document.getElementById('user_name').innerHTML,
-        content_name: form.content_name.value,
+        content_name: filename,
         content: document.getElementById('content').innerHTML
     }));
     
     } 
+    }
+    else
+    {
+       xhr.open('POST', '/update1', true);
+        var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
+            var filename=userData.filename;
+       localStorage.getItem('filename');
+    console.log(filename);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+             //id: parseInt(window.location.pathname.split('/')[1]),
+             content_name:filename,
+            content: document.getElementById('content').innerHTML
+    }));  
+   //
+    }
+}
     else if (window.location.pathname=='/view')
     {
       alert('wrong');
@@ -143,8 +174,141 @@ function saveNote(e) {
     
     }
 }
+function saveas(e)
+{
+    e.preventDefault();
+    var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
+            var filename=userData.filename;
+    if(localStorage.getItem("userData")==null)
+    {
 
+      var filename=prompt("enter the filename","");
+        if (filename==null || filename=="") {
+            alert("plz enter the filename!!");
+        }
+        else{
+         localStorage.setItem('userData', JSON.stringify({
+                
+                filename:filename
+            }));
+ 
+    let xhr = new XMLHttpRequest();
 
+    xhr.onreadystatechange = function() {
+        if(this.status == 200 && this.readyState == 4) {
+            // success
+            alert(this.responseText);
+        }
+    }
+    xhr.onerror = function() {
+        alert('Something went wrong. Failed to save data.');
+    }
+    xhr.open('POST', '/save-content', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        
+        username:document.getElementById('user_name').innerHTML,
+        content_name: filename,
+        content: document.getElementById('content').innerHTML
+    }));
+    }
+    }
+    else
+    {
+        
+         userData=JSON.parse(localStorage.getItem('userData') ||'{}');
+            var fname=userData.filename;
+        var filename=prompt("enter the filename",fname);
+        if (filename==null || filename=="") {
+            alert("plz enter the filename!!");
+        }
+        else{
+         localStorage.setItem('userData', JSON.stringify({
+                
+                filename:filename
+            }));
+ 
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if(this.status == 200 && this.readyState == 4) {
+            // success
+            alert(this.responseText);
+        }
+    }
+    xhr.onerror = function() {
+        alert('Something went wrong. Failed to save data.');
+    }
+    xhr.open('POST', '/save-content', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        
+        username:document.getElementById('user_name').innerHTML,
+        content_name: filename,
+        content: document.getElementById('content').innerHTML
+    }));
+    }
+
+}
+}
+function copy(e)
+{
+    e.preventDefault();
+     let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if(this.status == 200 && this.readyState == 4) {
+            // success
+            alert(this.responseText);
+        }
+    }
+    xhr.onerror = function() {
+        alert('Something went wrong. Failed to save data.');
+    }
+    
+     var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
+            var filename=userData.filename;
+    xhr.open('POST', '/copy', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        
+        username:document.getElementById('user_name').innerHTML,
+        content_name: filename,
+        content: document.getElementById('content').innerHTML
+    }));
+}
+function rename(e)
+{
+    e.preventDefault();
+    window.localStorage.clear();
+   var filename=prompt("enter the new filename","");
+    localStorage.setItem('userData', JSON.stringify({
+                
+                filename:filename
+            }));
+ 
+   let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if(this.status == 200 && this.readyState == 4) {
+            // success
+            alert(this.responseText);
+        }
+    }
+    xhr.onerror = function() {
+        alert('Something went wrong. Failed to save data.');
+    }
+    xhr.open('POST', '/update2', true);
+     var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
+            var filename=userData.filename;
+           // console.log(rename);
+       localStorage.getItem('filename');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+             content_name:filename,
+            content: document.getElementById('content').innerHTML
+    }));  
+}
 function savelogin(e){
     e.preventDefault();
     let xhr= new XMLHttpRequest();
@@ -152,14 +316,14 @@ function savelogin(e){
         if(this.status ==200 && this.readyState ==4){
         
         let data=JSON.parse(this.responseText);
-           if(data.code==1)
+          if(data.code==1)
            {
             //alert("WELCOME....."   + data.username);
-            localStorage.setItem('userData', JSON.stringify({
+          /*  localStorage.setItem('userData', JSON.stringify({
                 
                 username: data.username,
                 email: data.email,
-            }));
+            }));*/
 
             
              document.cookie = "username=" + data.username;
@@ -185,18 +349,26 @@ function savelogin(e){
 }
 function delcookie()
 {
+      
+
    document.cookie="username=" ;
   window.localStorage.clear();
-    
 }
 
+ function loadusername()
 
+      {
+   
+            document.getElementById("user_name").innerHTML=document.cookie.split('=')[1]; 
+           
+
+           window.localStorage.clear();  
+          }
 function loaduserid2()
 
 {
-    var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
-            var username=userData.username;
-            document.getElementById('u_name').value=username;
+   
+            document.getElementById('u_name').value=document.cookie.split('=')[1]; 
 }
  function Sharefiles(id)
 {

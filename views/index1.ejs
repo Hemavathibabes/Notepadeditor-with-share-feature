@@ -7,14 +7,13 @@
 	
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<body onload="loaduserid2(); sharefile(); ">
-<b>if u want to open the file?</b>
-<input id="search-box" type="search" placeholder="Search.." onkeyup="searchNote(this.value)" /><br><br>
+<body onload="loaduserid2(); sharefile();" style="background-color: #E6E6FA;" >
+<!--<b>if u want to open the file?</b>
+<input id="search-box" type="search" placeholder="Search.." onkeyup="searchNote(this.value)" /> --><br><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Username:</b>
 <input type="button" name="" id="u_name">
-<br>
-<button onclick="hide()"><a href="/savedfiles" >Saved Notes:</a></button>
-
+<br><br><br>
+<button style=" height: 35px; width: 150px;  border-radius: 4px;  border: none; background-color:  #3B5998; " ><a href="/savedfiles" style="font-size: 20px; text-decoration-line: none;  color: white; " >Saved Notes</a></button>
 
 
 <br>
@@ -52,7 +51,8 @@
     <% }); %>
     </tbody>
 </table>
-<button onclick="sharefile()">Shared notes:</button>
+<br><br>
+<button style=" height: 35px; width: 150px;  border-radius: 4px;  border: none; background-color:  #3B5998; " ><a href="/sharedfiles" style="font-size: 20px; text-decoration-line: none;  color: white; " >Shared Notes</a></button>
 <table id="tableshare"> 
     <thead>
         <tr>
@@ -68,10 +68,7 @@
     </tbody>
 </table>
 <script type="text/javascript">
-    function hide()
-    {
-        $('#delete').hide();
-    }
+   
 </script>
  <script src="js/script.js"></script>
  <script src="js/ajax.js"></script>

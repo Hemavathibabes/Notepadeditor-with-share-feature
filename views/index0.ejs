@@ -1,146 +1,227 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="UTF-8" />
+			<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<title>Text editor</title>
 	<center><h1>Online Notepad Editor</h1></center>
 </head>
+	
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 <style type="text/css">
-     
-	.inputwithIcon {
-		position: relative;
-		
-	}
-	.inputwithIcon i
-	{
-		position: absolute;
-		left: 0;
-		top: 1px;
-	    
-		padding: 2px 5px 0px 0px;
-		color:#000000; 
-	}
+body {
+  margin: 0;
+   background-color: #E6E6FA;
+}
 
+.topnav {
+  overflow: hidden;
+  background-color: #191970;
+   font-family: Arial;
+}
 
-ul li
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 19px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+ .dropdown .dropbtn:hover 
 {
-	float: right;
-	margin: 0px 5px 5px 50px;
-	list-style-type: none;
+	background-color:#ddd;
+	color: black;
+
+}
+
+.topnav a.active {
+  background-color: #3B5998;
+  color: white;
+}
+
+.topnav-right {
+  float: right;
+}
+.dropdown .dropbtn {
+    font-size: 19px;    
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
     
+    margin: 0;
 }
-ul ul {
-	display: none;
-	margin: 0;
-	padding: 0;
-     line-height: 30px;
-     position: absolute;
+.dropdown .dropbtn1 {
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    color: white;
+   
+    background-color: inherit;
+  
+    margin: 0;
 }
-ul li:hover > ul {
-		display: block;
-		
-	}
- 
-	li.sub {
-		margin: 0;
-		padding: 0;
-		float: left;
-		position: relative;
-		background: #999;
-		border: 1px solid #000;
-		width: 160px;
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 110px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
 
-	} 
-	ul li a
-	{
-		text-align: center;
-		text-decoration: none;
-		height: 40px;
-		width: 160px;
-		display: block;
-		color: #000;
-	}
-	 ul li:hover ul li a:hover {
-	 	background: #CCC;
-	 	color: #000;
 
-	 } 
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+.dropdown-content input[type=button]  {
+    float: none;
+    color: black;
+     border: none;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    width: 110px;
+    height: 45px;
+     background-color: #f9f9f9;
+         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    font-size: 19px;
+}
+.dropdown-content input[type=submit]
+{
+      float: none;
+    color: black;
+     border: none;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    width: 160px;
+    height: 45px;
+     background-color: #f9f9f9;
+         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    font-size: 19px;
+}
+.dropdown-content input[type=button]:hover
+{
+   background-color: #ddd;
+
+}
+.dropdown-content input[type=submit]:hover
+{
+  background-color: #ddd;
+}
+.dropdown-content a:hover {
+    background-color: #ddd;
+
+}
+.dropdown:hover .dropdown{
+	display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 </style>
+<body onload="loadusername();">
 
-<body onload="loadusername()">
-
-<b style="color: #A52A2A">WELCOME...<b style="color:#A52A2A" id="user_name"></b>!!</b>
+<b style="color: black;">WELCOME...<b style="color:#000080;" id="user_name"></b>!!</b>
      <br>
+     <form id="form" name="form" >
+      
+<div class="topnav">
 
-     <!--<p style="margin: 0px 20px 0px 30px" align="right"><b>For Download :
-     </b>-->
-     <ul >
-         <li><a href="" class="inputwithIcon" style=" font-size: 25px; text-decoration-line: none; color: black; padding: 4px 5px 5px 15px; "><i class="fa fa-user fa-lg fa-fw" align="right" aria-hidden="true"></i>&nbsp;&nbsp;Go to profile</a>
-         <ul >
-         	<li class="sub" ><a href="/savedfiles">Your files</a></li><br>
-         	<li class="sub" onclick="delcookie()"><a href="/">Log Out</a></li>
-         </ul>
-		</li>
-          </ul>
-     <img onclick="pdf()" src="http://www.iop.kiev.ua/~gvozdovskyy/Igor%20Gvozdovskyy.files/academpage.files/Download%20pdf%20arrow.gif" width="50" height="50" style="margin: 0px 60px 80px 0px" align="right">
-     
-     
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>Tools</b> 
-	 
-	<form id="form" name="form" onsubmit="saveNote(event); savelocal();">
+	<div class="dropdown">
+		<button class="dropbtn1">
+  <a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File &nbsp;&nbsp;&nbsp;&nbsp;   </a></button>
+  <div class="dropdown-content"  >
+  
+    <input type="submit" value="Save" id="submit" onclick="saveNote(event)" />
+    <input type="submit" name="content_name" id="content_name" onclick="saveas(event)" value="Save as" style="min-width: 160px;">
+     <input type="submit" value="Make a copy" onclick="copy(event)" style="min-width: 160px;" name="">
+  	<input type="submit" value="Rename" onclick="rename(event)" style="min-width: 160px;" name="">
+  	
+  	<input type="button" onclick="pdf()" value="Export as PDF" name="" style="min-width: 160px;">
+  </div>
+  </div>
 
+  <div class="dropdown">
+ <button class="dropbtn1">
+  <a href="">&nbsp;&nbsp;Tools&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</a>
+</button>
+<div class="dropdown-content" >
+	<input type="button" name="" value="B" onclick="document.execCommand('bold', false, null);" style="font-weight: bold; " >
+	<input type="button" value="I" onclick="document.execCommand('italic', false, null);" style="font-style: italic; 
 
-		<input type="button" value="B" name="name" onclick="document.execCommand('bold', false, null);" style="font-weight: bold;">
+  ">
+	<input type="button" value="U" href="" onclick="document.execCommand('underline', false, null);" style="text-decoration: underline;">
+<input type="button" value="Delete"  onclick="document.execCommand('delete', false, null);">
+</div>
+</div>
+   <div class="dropdown"> 
+   	<button class="dropbtn1">
+   		 <a href="">Fontsize</a>
+       
+   	</button>
+   	<div class="dropdown-content" style="min-width: 80px;">
+   		<input type="button" value="8" id="8" name="8" onclick="font(this)">
+   		<input type="button" value="9" onclick="font(this);">
+   	<input type="button" value="12" onclick="font(this);">
+    <input type="button" value="16" onclick="font(this);">
+   	<input type="button" value="18" onclick="font(this);">
+    <input type="button" value="20" onclick="font(this);">
+    <input type="button" value="22" onclick="font(this);">
+    <input type="button" value="24" onclick="font(this);">
+    <input type="button" value="36" onclick="font(this);">	
+    <input type="button" value="48" onclick="font(this);">
+    <input type="button" value="72" onclick="font(this);">
+   		
 
-		<input type="button" value="I" name="name" onclick="document.execCommand('italic', false, null);" style="font-style: italic;">
+   	</div>
+   </div>
+   
+  <div class="dropdown" style="float: right;">
+    <button class="dropbtn" style="display: block;">
+      <i class="fa fa-user fa-lg fa-fw" align="right" aria-hidden="true"></i>Go to profile</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    </button>
+    <div class="dropdown-content" style="min-width: 160px;">
 
-		<input type="button" value="U" name="name" onclick="document.execCommand('underline', false, null);" style="text-decoration: underline;">
-		<input type="button" value="delete" name="name" onclick="document.execCommand('delete', false, null);">&nbsp;&nbsp;&nbsp;
-          FontSize:<select id="fs" onchange="font()">
-          
-          	<option value="8">8</option>
-          	<option value="9">9</option>
-          	<option value="10">10</option>
-          	<option value="11">11</option>
-          	<option value="12">12</option>
-          <option value="14">14</option>
-          <option value="16">16</option>
-          <option value="18">18</option>
-          <option value="20">20</option>
-          <option value="22">22</option>
-          <option value="24">24</option>
-          <option value="26">26</option>
-          <option value="28">28</option>
-          <option value="36">36</option>
-          <option value="48">48</option>
-          <option value="72">72</option>
-          </select>
-
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-		  Save as:
-		<input type="Text" name="content_name" id="content_name" value="<%- filename %>">&nbsp;&nbsp;&nbsp; 
-		<input type="submit" value="save" id="submit" />
-	    
-        
-	
-		
-
-		 <br><br>
-		 
-		<div contenteditable="true" id="content" spellcheck="true" name="content" style="height: 700px; width: 95%;border: 1px solid black; border-radius:5px">
+      <a href="/savedfiles">your files</a>
+      <a href="/" onclick="delcookie()">Log out</a>
+     <a href="">Help</a>
+    </div>
+    
+  </div> 
+</div>
+<div contenteditable="true" id="content" spellcheck="true" name="content" style="height: 600px; border: 1px solid black; border-radius:5px">
 			<%- content %>
 		</div>
-		
-	</form>
+
+</form>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
 
-     <script type="text/javascript">
-     function pdf()
+	 function pdf()
 		{
 		 var doc = new jsPDF();
     
@@ -161,28 +242,18 @@ ul li:hover > ul {
 
     doc.save('Test.pdf');
        }
-     	function font()
-		{
-			var fs=document.getElementById('fs').value;
-			console.log(fs);
-			var con=document.getElementById('content');
-			con.style.fontSize=parseInt(fs) +"px";
-		}
-		function loadusername()
-
-{
-    var userData=JSON.parse(localStorage.getItem('userData') ||'{}');
-            
-            var username=userData.username;
-            document.getElementById("user_name").innerHTML=username;
-        
-}
 
       
-     </script>
-	<script src="js/script.js">
+     function font(fs)
+    {
+      var fs=fs.value;
+      console.log(fs);
+      var con=document.getElementById('content');
+      con.style.fontSize=parseInt(fs) +"px";
+    }
+</script>
+<script src="js/script.js">
 		
 	</script>
 </body>
-
-</html>   
+</html>

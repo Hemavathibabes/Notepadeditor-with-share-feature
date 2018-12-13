@@ -9,87 +9,64 @@
 <style type="text/css">
      .inputwithIcon input[type=text]
      {
-     	padding-left: 50px;
+     	padding-left: 25px;
+      
+        background-color: lightgrey;
      }
 	.inputwithIcon {
 		position: relative;
+		border-radius: 4px;
 	}
 	.inputwithIcon i
 	{
 		position: absolute;
 		left: 0;
-		top: 1px;
-		
-		padding: 6px 8px 1px 1px;
-		color:#A9A9A9;
+		right: 1;
+	    background-color:  #3B5998;
+		padding: 7px 5px 13px 14px;
+		color:white;
+		size: 10px;
 	}
 
-
+ ::placeholder {
+   	color: white;
+   }
 </style>
-<body>
-
+<body style="background-color:  #E6E6FA;">
+	<center>
+<form style="  background-color: white;  border:1px solid black; padding: 25px; width: 380px;  height: 440px; border-radius: 4px; margin: 75px;" name="login" id="login"  />
+<b style="font-size: 50px; text-align: right;padding-right:  200px;">Sign up</b>
+	<p style="font-style: italic; padding-right: 160px; ">Register your account today!!</p><br>
+	<div class="inputwithIcon">
+				<input type="text"  id="username" size="30" style="height: 33px; font-size: 18px; width: 70%; border: none;" placeholder="Username " >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<i class="fa fa-user fa-lg fa-fw" aria-hidden="true " style="width: 20px; height: 15px;"></i>
+		</div> 
+	<br>
+	<div class="inputwithIcon">
+		<input type="email" id="email" size="30" placeholder="Email" style="height: 33px; font-size: 18px; width: 70%; padding-left: 25px; background-color: lightgrey; border: none; " name="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true" style="width: 20px; height: 15px;"></i>
+		</div>
+	<br>
+	<div class="inputwithIcon">
+		<input type="Password" id="password" placeholder="Password" size="30" style="height: 33px; font-size: 18px; width: 70%;padding-left: 25px;background-color: lightgrey; border:none; " name="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<i class="fa fa-unlock-alt fa-lg fa-fw" aria-hidden="true" style="width: 20px; height: 15px;"></i>
 	
-
-<form style=" font-size: 30px;" name="notepad" id="notepad" onsubmit="" >
-<table cellpadding="9" width="90%" style= "height:70%;" bgcolor="C0C0C0" align="center">
-<tr><td></td><td>
-<center><font size=6><b><u>ONLINE NOTEPAD EDITOR</u></b></font></center>
-
-</td></tr>
-<tr><td></td></tr>
-<tr>
-<td></td><td></td><td>
-<b style="font-style: italic; ">Register your account today!!</b>
-</td></tr>
-<tr><td></td></tr>
-<tr><td></td></tr>
-
-<tr>
-	<td>Username</td>
-	<td>
-	<div class="inputwithIcon">
-		<input type="text"  id="username" size="30" style="height: 35px; font-size: 20px; width: 70%;" >
-		<i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
-		</div>
-	</td>
-</tr>
-<tr>
-	<td>Email</td>
-	<td>
-	<div class="inputwithIcon">
-		<input type="email" id="email" size="30" placeholder="" style="height: 35px; font-size: 20px; width: 80%; padding-left: 50px;" name="">
-		<i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
-		</div>
-	</td>
-</tr>
-<tr>
-	<td>Password</td>
-	<td>
-	<div class="inputwithIcon">
-		<input type="Password" id="password" size="30" style="height: 35px; font-size: 20px; width: 70%; padding-left: 50px;" name="">
-		<i class="fa fa-unlock-alt fa-lg fa-fw" aria-hidden="true"></i>
-	</td>
 	</div>
-</tr>
-<tr>
-	<td>Reenter password</td>
-	<td>
+	<br>
+	
 	<div class="inputwithIcon">
-	<input type="password" id="Reenterpwd" size="30" style="height: 35px; font-size: 20px; width: 70%; padding-left: 15%;">
-	<i class="fa fa-key fa-lg fa-fw" aria-hidden="true"></i>
-	</td>
-</tr>
-<tr><td></td></tr>	
-<tr><td></td>
-<td><center>
-<input type="submit" onclick="validate(); " value="Create An Account" style="font-size: 20px;" >
-</center></td>
-<td>
-<a href="/login" style=" font-size: 20px;">Already have an account?</a>
-</td>
-</tr>
-</table>
+	<input type="password" id="Reenterpwd" size="30" placeholder="Reenter password" style="height: 33px; font-size: 18px; padding-left: 25px;background-color: lightgrey; width: 70%; border: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<i class="fa fa-key fa-lg fa-fw" aria-hidden="true" style="width: 20px; height: 15px;"></i>
+</div><br><br>
+	<div align="left">
+<input type="submit" onclick="validate(); " value="Sign up" style="font-size: 20px; background-color: #3B5998; border: none; color: white; height: 35px; width: 30%; border-radius: 4px; " ></div>
+<br>
+<div align="left">
+Alredy have an account?
+<a href="/login" style=" font-size: 15px; color: #3B5998; text-decoration-line: none; ">Sign in here.</a>
+</div>
 </form>
+</center>
 </body>
 <script type="text/javascript">
 	function validate()

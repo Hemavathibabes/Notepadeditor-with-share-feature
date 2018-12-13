@@ -1,36 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sign in</title>
-</head>
+	<title>Sign in</title></head>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
 <style type="text/css">
-	input[type="number"]::-webkit-outer-spin-button,
-    input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+     .inputwithIcon input[type=text]
+     {
+     	padding-left: 50px;
+     	
+     	background-color: lightgrey;
+     }
+	.inputwithIcon {
+		position: relative;
+	}
+	.inputwithIcon i
+	{
+		position: absolute;
+		left: 0;
+		top: 1px;
+		size: 25px;
+		padding: 7px 3px 13px 10px;
+		color:white;
+		background-color:  #3B5998;
+	}
+
+   ::placeholder {
+   	color: white;
    }
-   input[type="number"] {
-    -moz-appearance: textfield;
-}
 </style>
-<body>
+<body style="background-color: #E6E6FA;">
 
-<center><img src="https://www.askideas.com/media/07/Go-For-It-Good-Luck-Smiley-Picture.gif" height="450px" width="450px" align="right" ></center>
-<form style="text-align: center; font-size: 30px; background-color: lightgrey; text-align:center; border:1px solid black; padding: 75px; width: 450px; margin: 75px;" onsubmit="savelogin(event)" name="login" id="login" />
+<center><img src="https://www.askideas.com/media/07/Go-For-It-Good-Luck-Smiley-Picture.gif" height="450px" width="450px" align="right" style="padding-right: 180px;" ></center>
+<form style="  background-color: white;  border:1px solid black; padding: 75px; width: 320px; height: 330px; margin: 75px;" onsubmit="savelogin(event)" name="login" id="login" /><b style="font-size: 60px;">login</b><br>
+Don't have an account?<a href="/signup" align="right" style="font-size: 15px; color:  #3B5998; text-decoration-line: none;"> Create now.</a> 
+<br><br>
+<div class="inputwithIcon">
+		<input type="text"  id="username" size="30" style="height: 35px; font-size: 18px; width: 80%; border: none;" placeholder="Username or Email" >
+		<i class="fa fa-user fa-lg fa-fw" aria-hidden="true " style=""></i>
+		</div><br>
+<div class="inputwithIcon">
+		<input type="Password" id="password" size="30" placeholder="Password" style="height: 35px; font-size: 20px; width: 80%; padding-left: 50px; background-color: lightgrey; border: none;" name="">
+		<i class="fa fa-unlock-alt fa-lg fa-fw" aria-hidden="true"></i>
+	
+	</div><br>
+<a href=""   style="color: #3B5998; padding-left: 200px; " >Forgot password?</a><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-<b>login Form</b>
-<br><br>    <input type="text" id="username" name="username" placeholder="username or password" width="60" style="height: 25px; border: none;"><br><br>
+<input type="submit"  value="log in"  style="font-size: 20px; height: 40px; width: 200px; background-color:  #3B5998; border-radius: 4px;  border: none; color: white; " /> 
+<p style="color:#3B5998; ">....................................OR.......................................</p>
 
- <input type="password"  id="password" name="password" placeholder="password" width="60" style="height: 25px; border: none;"><br><br>
-<input type="submit"  value="log in" style="font-size: 20px;" /> &nbsp;&nbsp;&nbsp;&nbsp;<a href="/signup" align="right" style="font-size: 15px;">Didn't have an account?</a> <br><br><br><br>
-
-
-
+<center><img src="https://blog.dashlane.com/wp-content/uploads/2018/03/facebook-sign-in-button.png" onclick="fblogin();" style="height: 60px; width: 200px;"></center>
 </form>
 
 
 
-</body>
+</body >
+<script type="text/javascript">
+var person={ userID :"",name:"",accessToken :"",picture:"",email:""};
+       function fblogin() {
+		  	FB.login(function(response) {
+				if(response.status=='connected')
+				{
+					person.userID=response.authResponse.userID;
+										person.name=response.authResponse.name;
+
+					person.accessToken=response.authResponse.accessToken;
+
+					FB.api('/me?fields=id,name,email',function(userData) {
+						person.name=userData.name;
+						person.email=userData.email;
+						//console.log(userData);
+						var un=userData.name;
+						if (un) {
+							
+							 localStorage.setItem('userData', JSON.stringify({
+                
+                                      username: un
+                                     
+                                 }));
+							  document.cookie = "username=" + un;
+                               window.location.href = '/editor';
+						}
+						
+						});
+						
+						
+						 
+				}
+			console.log(response);
+		} , {scope: 'public_profile, email'});
+		  }
+	
+	window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '837776046613520',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v3.1'
+    });
+};
+   
+		(function(d, s, id){
+		    var js, fjs = d.getElementsByTagName(s)[0];
+		    if (d.getElementById(id)) {return;}
+		    js = d.createElement(s); js.id = id;
+		    js.src = "//connect.facebook.net/en_US/sdk.js";
+		    fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		
+		
+		function getInfo() {
+			FB.api('/me', 'GET', {fields: 'first_name,last_name,name,id'}, function(response) {
+				document.getElementById('status').innerHTML = response.name;
+			});
+		}
+        
+	
+
+</script>
 <script src="js/script.js"></script>
 
 </html>

@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 var fns=require('./functions');
 //db.run("CREATE TABLE t3 (id INTEGER PRIMARY KEY AUTOINCREMENT,username TEXT,info  TEXT,filename TEXT)");
  //db.run("CREATE TABLE  t2 (username TEXT PRIMARY KEY,email TEXT,password TEXT)");
-//db.run("CREATE TABLE t4 (fileid INTEGER PRIMARY KEY,username TEXT,sharedname TEXT,edit boolean)");
+//db.run("CREATE TABLE t5 (fileid INTEGER ,username TEXT,sharedname TEXT,edit boolean)");
 app.get('/', (req, res) => {
 	res.render('index', {
 		edit:false,
@@ -84,7 +84,7 @@ app.get('/sharedfiles',(req,res) => {
 
 	var username=req.headers.cookie.split('=')[1];
 	//console.log(username);
-	fns.share('t3','t4',username).then(result=> {
+	fns.share('t3','t5',username).then(result=> {
 		res.json(result);
 	
 	}).catch(err => {
@@ -144,7 +144,7 @@ app.get('/view/:filename',(req,res) =>{
 });
 app.post('/update',(req,res) => {
 	let data=req.body;
-	fns.update('t3',data.id,data.content_name,data.content).then(result =>{
+	fns.update('t3',data.id,data.content).then(result =>{
      res.json(result);
      
      }).catch(err => {
@@ -154,7 +154,30 @@ app.post('/update',(req,res) => {
 		});
 	});	
 });
-
+app.post('/update1',(req,res) => {
+	let data=req.body;
+	fns.update1('t3',data.content_name,data.content).then(result =>{
+     res.json(result);
+     
+     }).catch(err => {
+		res.json({
+			code: 0,
+			message: "Failed to update."
+		});
+	});	
+});
+app.post('/update2',(req,res) => {
+	let data=req.body;
+	fns.update2('t3',data.content_name,data.content).then(result =>{
+     res.json(result);
+     
+     }).catch(err => {
+		res.json({
+			code: 0,
+			message: "Failed to rename."
+		});
+	});	
+});
 app.post('/load-more', (req, res) => {
 	let data = req.body;
 
@@ -194,10 +217,25 @@ app.post('/save-content', (req, res) => {
 	     
 	});
 });
+app.post('/copy', (req, res) => {
+	let data = req.body;
+
+	db.serialize(function() {
+         
+	     
+	     var stmt=db.prepare("INSERT INTO t3 VALUES (?,?,?,?)");
+		stmt.run(null,data.username, data.content,data.content_name);
+		stmt.finalize();
+		
+	     	res.end("file copied Successfully!");
+	     
+	     
+	});
+});
 app.post('/share-file',(req,res) => {
 let data=req.body;
 	db.serialize(function(){
-		var stmt=db.prepare(`INSERT INTO t4 VALUES (?,?,?,?)`);
+		var stmt=db.prepare(`INSERT INTO t5 VALUES (?,?,?,?)`);
 		stmt.run(data.id,data.ownername,data.username,data.edit);
 		stmt.finalize();
 		res.end("file is shared Successfully!");
@@ -212,7 +250,6 @@ app.post('/auth-login', (req,res) => {
 			res.json({
 				code: 1,
 				message: "login success.",
-				
 				username: docs[0].username,
 				password: docs[0].password
 			});
@@ -240,6 +277,15 @@ app.post('/save-userdata',(req,res) => {
 		res.end("Created account Successfully!");
 	
 	});
+});
+app.post('/fblogin',(req,res) => {
+	let data=req.body;
+		var stmt=db.prepare(`INSERT INTO t2 VALUES (?,?,?)`);
+		stmt.run(data.username,null,null);
+		stmt.finalize();
+	
+	
+	
 });
 
 app.get('/search', (req, res) => {

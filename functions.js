@@ -18,7 +18,7 @@ module.exports = {
     },
 
     login: (table, username, password) => {
-        let q = `SELECT * FROM ${table} WHERE username='${username}' OR email='${username}' AND password='${password}'`;
+        let q = `SELECT * FROM ${table} WHERE (username='${username}' OR email='${username}') AND password='${password}'`;
         return new Promise((resolve, reject) => {
             db.all(q, (err, rows) => {
                 if(!err) {
@@ -103,11 +103,11 @@ module.exports = {
         });
     },
 
-    update: (table, id, fName, content) => {
+    update: (table, id,  content) => {
 
         return new Promise((resolve, reject) => {
             
-            db.run(`UPDATE ${table} SET "filename" = '${fName}', "info" = '${content}' WHERE id = ${id}`, (err, data) => {
+            db.run(`UPDATE ${table} SET  "info" = '${content}' WHERE id = ${id}`, (err, data) => {
                 if(!err) {
                     resolve({
                       message: " Data updated successfully."
@@ -122,7 +122,44 @@ module.exports = {
             });
         });
     },
+update1: (table, fName,  content) => {
 
+        return new Promise((resolve, reject) => {
+            
+            db.run(`UPDATE ${table} SET  "info" = '${content}' WHERE "filename" = '${fName}'`, (err, data) => {
+                if(!err) {
+                    resolve({
+                      message: " Data saved successfully."
+                        
+                    });
+                } else {
+                    reject({
+                        code: 0,
+                        message: "Failed to update data. Something went wrong."
+                    });
+                }
+            });
+        });
+    },
+    update2: (table, fName,  content) => {
+
+        return new Promise((resolve, reject) => {
+            
+            db.run(`UPDATE ${table} SET  "filename" = '${fName}' WHERE "info" = '${content}'`, (err, data) => {
+                if(!err) {
+                    resolve({
+                      message: " renamed successfully."
+                        
+                    });
+                } else {
+                    reject({
+                        code: 0,
+                        message: "Failed to update data. Something went wrong."
+                    });
+                }
+            });
+        });
+    },
     remove: (table, id) => {
         return new Promise((resolve, reject) => {
             db.run(`DELETE FROM ${table} WHERE id = ?`, [id], (err, data) => {
@@ -174,7 +211,7 @@ module.exports = {
     },
     share:(table,table1,username) => {
         return new Promise((resolve,reject) => {
-            let sql=`SELECT id,info,filename,edit FROM ${table} INNER JOIN ${table1} ON t3.id=t4.fileid AND t4.sharedname='${username}'`;
+            let sql=`SELECT id,info,filename,edit FROM ${table} INNER JOIN ${table1} ON t3.id=t5.fileid AND t5.sharedname='${username}'`;
         db.all(sql,(err,rows) => {
             if(!err) {
                     resolve({
