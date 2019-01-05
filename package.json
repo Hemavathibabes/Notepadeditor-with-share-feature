@@ -9,7 +9,10 @@
     "body-parser": "^1.17.2",
     "ejs": "^2.6.1",
     "express": "^4.15.4",
+    "express-flash": "0.0.2",
+    "express-session": "^1.15.6",
     "jspdf": "^1.4.1",
+    "nodemailer": "^4.7.0",
     "sqlite3": "^4.0.0"
   }
 }

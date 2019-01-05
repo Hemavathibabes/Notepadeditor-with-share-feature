@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Forgot Password</title>
+</head>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<style type="text/css">
+.inputwithIcon input[type=email]
+     {
+     	padding-left: 25px;
+      
+        background-color: lightgrey;
+     }
+	.inputwithIcon {
+		position: relative;
+		border-radius: 4px;
+	}
+	.inputwithIcon i
+	{
+		position: absolute;
+		left: 0;
+		right: 1;
+	    background-color:  #3B5998;
+		padding: 7px 5px 13px 17px;
+		color:white;
+		size: 10px;
+	}
+
+ ::placeholder {
+   	color: white;
+   }
+</style>
+<body style="background-color:  #E6E6FA;">
+	<center>
+<form style="  background-color: white;  border:1px solid black; padding: 25px; width: 580px;  height: 440px; border-radius: 4px; margin: 75px;" name="forgot" id="forgot" onsubmit="Forgot(event)"  >
+
+<b style="font-size: 50px; text-align: right; padding-right: 200px; ">Forgot Password</b>
+	<br><br>
+	
+	<br><br>
+
+
+	<div class="inputwithIcon">
+	<input type="email" id="email" size="30" placeholder="Email" style="height: 33px; font-size: 18px; width: 70%;  padding-right: 105px; background-color: lightgrey; border: none;  " name="email">
+		<i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true" style="width: 20px; height: 15px;"></i>
+		</div>
+	
+	<br><br><br>
+	<div align="left">
+<input type="submit"  value="Reset Password" style="font-size: 20px; background-color: #3B5998; border: none; color: white; height: 35px; width: 30%; border-radius: 4px; " ></div>
+<br>
+
+</form>
+</center>
+
+</body>
+<script src="js/script.js"></script>
+</html>

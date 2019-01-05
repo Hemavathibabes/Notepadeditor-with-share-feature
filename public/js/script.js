@@ -318,14 +318,7 @@ function savelogin(e){
         let data=JSON.parse(this.responseText);
           if(data.code==1)
            {
-            //alert("WELCOME....."   + data.username);
-          /*  localStorage.setItem('userData', JSON.stringify({
-                
-                username: data.username,
-                email: data.email,
-            }));*/
-
-            
+           
              document.cookie = "username=" + data.username;
             window.location.href = '/editor';
            }
@@ -347,6 +340,34 @@ function savelogin(e){
         password:document.login.password.value,
 }));
 }
+function Forgot(e)
+{
+  
+ e.preventDefault();
+ var token=Math.floor((Math.random() *10000000)+54);
+
+ document.cookie = "token=" +token;
+ var email=document.forgot.email.value;
+ document.cookie = "email=" +email;
+    let xhr= new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if(this.status ==200 && this.readyState ==4){
+        
+        alert(this.responseText);
+         xhr.onerror = function(){
+        alert("error");
+    }
+  }
+  }
+     xhr.open('POST', '/forgot',true);
+     
+     xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send(JSON.stringify({
+        email:document.forgot.email.value,
+        token:token
+}));
+}
+
 function delcookie()
 {
       
@@ -359,7 +380,7 @@ function delcookie()
 
       {
    
-            document.getElementById("user_name").innerHTML=document.cookie.split('=')[1]; 
+            document.getElementById("user_name").innerHTML=Cookies.get('username'); 
            
 
            window.localStorage.clear();  
@@ -368,7 +389,7 @@ function loaduserid2()
 
 {
    
-            document.getElementById('u_name').value=document.cookie.split('=')[1]; 
+            document.getElementById('u_name').value=Cookies.get('username');
 }
  function Sharefiles(id)
 {

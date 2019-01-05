@@ -160,6 +160,24 @@ update1: (table, fName,  content) => {
             });
         });
     },
+    update3:(table,email,password)=>{
+        return new Promise((resolve,reject)=> {
+            db.run(`UPDATE ${table} SET  "password" = '${password}' WHERE "email" = '${email}'`, (err, data) => {
+                if(!err) {
+                    resolve({
+                      message: " renamed successfully."
+                        
+                    });
+                } else {
+                    reject({
+                        code: 0,
+                        message: "Failed to update data. Something went wrong."
+                    });
+                  }
+            });
+            });
+    
+    },
     remove: (table, id) => {
         return new Promise((resolve, reject) => {
             db.run(`DELETE FROM ${table} WHERE id = ?`, [id], (err, data) => {
@@ -265,6 +283,38 @@ update1: (table, fName,  content) => {
     });
     
     });       
+    },
+    addtoken:(table,token,email) => {
+        return new Promise((resolve,reject) => {
+             db.run(`UPDATE ${table} SET  token = ${token} WHERE "email" = '${email}'`, (err, data) => {
+                if(!err) {
+                    resolve({
+                      message: " renamed successfully."
+                        
+                    });
+                } else {
+                    reject({
+                        code: 0,
+                        message: "Failed to update data. Something went wrong."
+                    });
+                }
+            });
+        });
+    },
+    mailcheck:(table,email) => {
+        return new Promise((resolve,reject) => {
+            var query=`SELECT * from ${table} WHERE email= '${email}'`;
+            
+            db.all(query, (err, rows) => {
+                
+        
+            if(!err) {
+                    resolve(rows);
+                } else {
+                    reject(err);
+                }
+    });
+        });
     }
 
 };

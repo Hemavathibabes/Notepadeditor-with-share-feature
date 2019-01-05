@@ -34,7 +34,7 @@
 </style>
 <body style="background-color:  #E6E6FA;">
 	<center>
-<form style="  background-color: white;  border:1px solid black; padding: 25px; width: 380px;  height: 440px; border-radius: 4px; margin: 75px;" name="login" id="login"  />
+<form style="  background-color: white;  border:1px solid black; padding: 25px; width: 380px;  height: 440px; border-radius: 4px; margin: 75px;" name="notepad" id="notepad"  />
 <b style="font-size: 50px; text-align: right;padding-right:  200px;">Sign up</b>
 	<p style="font-style: italic; padding-right: 160px; ">Register your account today!!</p><br>
 	<div class="inputwithIcon">
@@ -67,10 +67,11 @@ Alredy have an account?
 </div>
 </form>
 </center>
-</body>
+
 <script type="text/javascript">
 	function validate()
 	{
+
 		if((document.notepad.username.value=="") || (document.notepad.password.value!=document.notepad.Reenterpwd.value) || (document.notepad.password.value==""))
 		{
 			alert("Something went wrong ..try again!");
@@ -84,16 +85,16 @@ Alredy have an account?
 		
 	}
 	 function savelocal(){
-    	 localStorage.setItem('userData', JSON.stringify({
+    	/* localStorage.setItem('userData', JSON.stringify({
                 
                 username: document.notepad.username.value
                 
-            }));
+            }));*/
     	              document.cookie = "username=" +document.notepad.username.value ;
 
 
     }
 </script>
 <script src="js/script.js"></script>
-
+</body>
 </html>

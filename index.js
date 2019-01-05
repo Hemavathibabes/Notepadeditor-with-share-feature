@@ -2,17 +2,31 @@ var http = require('http');
 
 var express = require('express');
 var app = express();
-
+var nodemailer=require('nodemailer');
+var crypto =require('crypto');
+var async=require('async');
 var bodyParser = require('body-parser');
+var cookieParser=require('cookie-parser');
+var session = require('express-session');
+
+var flash = require('connect-flash');
+
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-app.use(bodyParser.json());
 
+app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({	
 
 	extended: true
 }));
-
+app.use(session({secret: '{session secret key}', 
+    cookie: { maxAge: 60000 },
+    
+    saveUninitialized: true,
+    resave: 'true',
+    }));
+app.use(flash());
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('./sqlite-db-file.db');
 global.db=db;
@@ -26,8 +40,9 @@ app.use((req, res, next) => {
 
 var fns=require('./functions');
 //db.run("CREATE TABLE t3 (id INTEGER PRIMARY KEY AUTOINCREMENT,username TEXT,info  TEXT,filename TEXT)");
- //db.run("CREATE TABLE  t2 (username TEXT PRIMARY KEY,email TEXT,password TEXT)");
+ //db.run("CREATE TABLE  t2 (username TEXT PRIMARY KEY,email TEXT,password TEXT,token INTEGER)");
 //db.run("CREATE TABLE t5 (fileid INTEGER ,username TEXT,sharedname TEXT,edit boolean)");
+//db.run("DROP TABLE t2");
 app.get('/', (req, res) => {
 	res.render('index', {
 		edit:false,
@@ -46,6 +61,66 @@ app.get('/editor', (req, res) => {
 		content:""
 	});
 });
+app.get('/forgotpassword',(req,res) => {
+	res.render('forgot');
+});
+app.get('/reset/:token',(req,res) => {
+	//aconsole.log(req.cookies['token']);
+	if(parseInt(req.params.token)==req.cookies['token'])
+	{
+	res.render('resetPassword');
+}
+else
+{
+	res.send("unauthorized user");
+}
+});
+app.post('/forgot',function(req, res, next) {
+
+	let data=req.body;
+	fns.mailcheck('t2',data.email).then(docs=> {
+		if(docs.length) {
+            res.send("An email is send to " + data.email + " to reset a password."); 
+            
+            var transporter = nodemailer.createTransport({
+            	service:'gmail',
+      host:'smtp.gmail.com',
+      port:465,
+      secure:true,
+  auth: {
+    user: 'hemanotepadeditor@gmail.com',
+    pass: 'zfhs llmz mbof taif'
+  },
+});
+//var token=Math.floor((Math.random() *10000000)+54);
+var link="http://localhost:4000/reset/"+data.token;
+// document.cookie = "token=" + token;\kl/
+//fns.addtoken('t2',token,data.email);
+var mailOptions = {
+  from: '"Admin-Notepad" <hemanotepadeditor@gmail.com>',
+  to: data.email,
+  subject: 'Reset Password-Notepad editor',
+  html:"Hello,<br> please click the button to verify your email.<br><button><a href="+link+">Click here</a></button>"
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+
+			
+		 }
+		  else {
+		 	res.end("No account exist for given credentials.");
+             }
+	 }).catch(err => {
+		 
+		 res.end("no account exist for given credentials.");
+   });
+	});
 app.get('/loadfiles',(req,res) => {
 	 fns.LoadQuery('t3',username,0,20).then(rows => {
 
@@ -59,9 +134,9 @@ app.get('/savedfiles',(req,res)=>{
 	{
 
 
-	var username = req.headers.cookie.split('=')[1];
 
-	//console.log(username);
+     var username=req.cookies['username'];
+	
 	fns.LoadQuery('t3',username, 0,20).then(rows => {
 	res.render('index1',{
 		rows:rows
@@ -82,7 +157,7 @@ app.get('/sharedfiles',(req,res) => {
 	{
 
 
-	var username=req.headers.cookie.split('=')[1];
+	var username=req.cookies['username'];
 	//console.log(username);
 	fns.share('t3','t5',username).then(result=> {
 		res.json(result);
@@ -170,6 +245,21 @@ app.post('/update2',(req,res) => {
 	let data=req.body;
 	fns.update2('t3',data.content_name,data.content).then(result =>{
      res.json(result);
+     
+     }).catch(err => {
+		res.json({
+			code: 0,
+			message: "Failed to rename."
+		});
+	});	
+});
+app.post('/pwdupdate',(req,res)=> {
+	let data=req.body;
+	let email=req.cookies['email'];
+	fns.update3('t2',email,data.password).then(result =>{
+        res.json({
+        	code:1
+        })
      
      }).catch(err => {
 		res.json({
@@ -271,8 +361,8 @@ app.post('/auth-login', (req,res) => {
 app.post('/save-userdata',(req,res) => {
 	let data=req.body;
 	db.serialize(function(){
-		var stmt=db.prepare(`INSERT INTO t2 VALUES (?,?,?)`);
-		stmt.run(data.username,data.email,data.password);
+		var stmt=db.prepare(`INSERT INTO t2 VALUES (?,?,?,?)`);
+		stmt.run(data.username,data.email,data.password,null);
 		stmt.finalize();
 		res.end("Created account Successfully!");
 	
