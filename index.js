@@ -93,7 +93,7 @@ app.post('/forgot',function(req, res, next) {
   },
 });
 //var token=Math.floor((Math.random() *10000000)+54);
-var link="http://notepadeditor1.herokuapp.com/reset/"+data.token;
+var link="https://notepadeditor1.herokuapp.com/reset/"+data.token;
 // document.cookie = "token=" + token;\kl/
 //fns.addtoken('t2',token,data.email);
 var mailOptions = {
