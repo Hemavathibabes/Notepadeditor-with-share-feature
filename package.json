@@ -2,18 +2,24 @@
   "name": "Heartbitz",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": "8.0.0"
+  },
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
+    "async": "^2.6.1",
     "asyncawait": "^1.0.7",
     "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
     "ejs": "^2.6.1",
     "express": "^4.15.4",
     "express-flash": "0.0.2",
     "express-session": "^1.15.6",
     "jspdf": "^1.4.1",
     "nodemailer": "^4.7.0",
+    "smtp": "^0.1.4",
     "sqlite3": "^4.0.0"
   }
 }
