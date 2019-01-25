@@ -11,15 +11,16 @@
 <!--<b>if u want to open the file?</b>
 <input id="search-box" type="search" placeholder="Search.." onkeyup="searchNote(this.value)" /> --><br><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Username:</b>
+
 <input type="button" name="" id="u_name">
 <br><br><br>
 <button style=" height: 35px; width: 150px;  border-radius: 4px;  border: none; background-color:  #3B5998; " ><a href="/savedfiles" style="font-size: 20px; text-decoration-line: none;  color: white; " >Saved Notes</a></button>
 
 
 <br>
-<table id="tableload">
+<table id="tableload" cellspacing="17">
     <thead>
-        <tr>
+        <tr style="font-size: 20px;">
             <th>No.</th>
             <th>Id</th>
             <th>File name</th>
@@ -29,7 +30,7 @@
     </thead>
     <tbody >
     <% rows.forEach((row,ind) => { %>
-     <tr>
+     <tr >
          <td><%- ind +1 %>
          </td>   
          <td><%- row.id %></td>
@@ -38,7 +39,7 @@
          <td><%- row.info %></td>
          <td>
              <button>
-                 <a href="/<%- row.id %>">Edit</a>
+                 <a style="text-decoration-line: none;" href="/<%- row.id %>" >Edit</a>
              </button>
          </td>
          <td>
@@ -53,9 +54,9 @@
 </table>
 <br><br>
 <button style=" height: 35px; width: 150px;  border-radius: 4px;  border: none; background-color:  #3B5998; " ><a href="/sharedfiles" style="font-size: 20px; text-decoration-line: none;  color: white; " >Shared Notes</a></button>
-<table id="tableshare"> 
+<table id="tableshare" cellspacing="17"> 
     <thead>
-        <tr>
+        <tr style="font-size: 20px;">
             <th>No.</th>
             <th>Id</th>
             <th>File name</th>

@@ -180,7 +180,9 @@ app.get('/login',(req,res) => {
 	res.render('login');
 
 });
-
+app.get('/help',(req,res) => {
+	res.render('help');
+});
 app.get('/signup',(req,res) => {
 	res.render('signup');
 });
@@ -360,12 +362,18 @@ app.post('/auth-login', (req,res) => {
 
 app.post('/save-userdata',(req,res) => {
 	let data=req.body;
-	db.serialize(function(){
+	db.serialize(function(err,rows){
+		if(!err)
+		{
 		var stmt=db.prepare(`INSERT INTO t2 VALUES (?,?,?,?)`);
 		stmt.run(data.username,data.email,data.password,null);
 		stmt.finalize();
 		res.end("Created account Successfully!");
-	
+	     }
+	     else
+	     {
+	     	res.end("username already exist.")
+	     }
 	});
 });
 app.post('/fblogin',(req,res) => {

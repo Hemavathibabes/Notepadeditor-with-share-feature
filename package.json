@@ -6,6 +6,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "asyncawait": "^1.0.7",
     "body-parser": "^1.17.2",
     "ejs": "^2.6.1",
     "express": "^4.15.4",

@@ -49,7 +49,7 @@ AJAX.get('/sharedfiles' ,(res) =>{
         res.rows.forEach((row,ind) => {
              if(row.edit==true)
              {
-            tbody +='<tr><td>' + (ind + 1) + "</td><td id='row'>" + row.id + '</td><td><a style="text-decoration-line:none;" href="/view/' + row.filename +'">' + row.filename + '</a></td><td>' + row.info + '</td><td><button><a href="' + row.id +'">Edit</a></button></td></tr>';
+            tbody +='<tr><td>' + (ind + 1) + "</td><td id='row'>" + row.id + '</td><td><a style="text-decoration-line:none;" href="/view/' + row.filename +'">' + row.filename + '</a></td><td>' + row.info + '</td><td><button><a style="text-decoration-line:none;" href="' + row.id +'">Edit</a></button></td></tr>';
                     var row=document.getElementById('row');
              }
              else{
