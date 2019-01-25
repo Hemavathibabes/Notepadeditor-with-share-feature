@@ -68,7 +68,7 @@ app.get('/reset/:token',(req,res) => {
 	//aconsole.log(req.cookies['token']);
 	if(parseInt(req.params.token)==req.cookies['token'])
 	{
-	res.render('resetPassword');
+	res.render('resetpassword');
 }
 else
 {
